@@ -13,6 +13,12 @@
         android:theme="@style/Theme.StudyAndroid"
         tools:targetApi="31">
         <activity
+            android:name=".ViewHolderExample"
+            android:exported="false" />
+        <activity
+            android:name=".ListExamples"
+            android:exported="false" />
+        <activity
             android:name=".PrimeNumber"
             android:exported="false" />
         <activity

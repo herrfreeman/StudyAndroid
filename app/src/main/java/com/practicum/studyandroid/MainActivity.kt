@@ -14,5 +14,15 @@ class MainActivity : AppCompatActivity() {
         .setOnClickListener {
             startActivity(Intent(this, PrimeNumber::class.java))
         }
+
+        findViewById<Button>(R.id.startListExample)
+            .setOnClickListener {
+                startActivity(Intent(this, ListExamples::class.java))
+            }
+
+        findViewById<Button>(R.id.recycleViewExample)
+            .setOnClickListener {
+                startActivity(Intent(this, ViewHolderExample::class.java))
+            }
     }
 }

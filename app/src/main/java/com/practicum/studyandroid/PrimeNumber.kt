@@ -18,6 +18,8 @@ class PrimeNumber : AppCompatActivity() {
         val inputEditText = findViewById<EditText>(R.id.inputEditText)
         val clearButton = findViewById<ImageView>(R.id.clearIcon)
 
+        linearLayout.tag
+
         clearButton.setOnClickListener {
             inputEditText.setText("")
         }
