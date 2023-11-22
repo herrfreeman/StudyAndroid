@@ -64,7 +64,6 @@ class NewsViewHolder(parentView: View) : RecyclerView.ViewHolder(parentView) {
         sourceName.text = model.name
         text.text = model.content
         if (model.isTopNews) {
-            sourceName.style
             sourceName.setTextColor(rgb(255,0,0))
         } else {
             sourceName.setTextColor(rgb(0,0,0))
