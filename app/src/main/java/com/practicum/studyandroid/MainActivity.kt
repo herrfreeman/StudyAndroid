@@ -24,5 +24,10 @@ class MainActivity : AppCompatActivity() {
             .setOnClickListener {
                 startActivity(Intent(this, ViewHolderExample::class.java))
             }
+
+        findViewById<Button>(R.id.weather)
+            .setOnClickListener {
+                startActivity(Intent(this, WeatherActivity::class.java))
+            }
     }
 }
