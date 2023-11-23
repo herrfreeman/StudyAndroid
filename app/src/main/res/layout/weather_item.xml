@@ -16,6 +16,7 @@
         android:layout_weight="1"
         android:layout_gravity="center"
         android:text="Mon"
+
         android:textSize="20sp"
         android:gravity="center"
         android:textColor="#000"/>

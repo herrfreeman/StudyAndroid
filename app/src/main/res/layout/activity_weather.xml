@@ -15,7 +15,7 @@
         android:background="#3F51B5"
         android:textColor="@color/white"
         android:textSize="18sp"
-        android:text="Week weather"/>
+        android:text="@string/weather_title"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/weather_recycler_view"
