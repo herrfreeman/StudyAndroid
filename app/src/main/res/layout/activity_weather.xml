@@ -3,6 +3,8 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+
+    android:id="@+id/top_view"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
@@ -20,7 +22,47 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/weather_recycler_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="wrap_content"/>
+
+    <TextView
+        android:id="@+id/daycard_dayname"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="30sp"
+        android:padding="8dp"
+        android:textAlignment="center"
+        android:text="Wednesday"/>
+
+    <ImageView
+        android:id="@+id/daycard_cloud"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:src="@drawable/weather_snowy"/>
+    <TextView
+        android:id="@+id/daycard_morning_temperature"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        android:padding="8dp"
+        android:textAlignment="center"
+        android:text="Morning: -10 C"/>
+    <TextView
+        android:id="@+id/daycard_day_temperature"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        android:padding="8dp"
+        android:textAlignment="center"
+        android:text="Day: -0 C"/>
+    <TextView
+        android:id="@+id/daycard_evening_temperature"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        android:padding="8dp"
+        android:textAlignment="center"
+        android:text="Afternoon: -5 C"/>
+
 
 
 </LinearLayout>

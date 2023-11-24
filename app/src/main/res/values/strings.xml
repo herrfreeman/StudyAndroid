@@ -6,6 +6,19 @@
     <string name="thursday_short">Thu</string>
     <string name="friday_short">Fri</string>
     <string name="saturday_short">Sat</string>
-    <string name="Sunday_short">Sun</string>
-    <string name="weather_title">Week weatcher forecast</string>
+    <string name="sunday_short">Sun</string>
+
+    <string name="monday">Monday</string>
+    <string name="tuesday">Tuesday</string>
+    <string name="wednesday">Wednesday</string>
+    <string name="thursday">Thursday</string>
+    <string name="friday">Friday</string>
+    <string name="saturday">Saturday</string>
+    <string name="sunday">Sunday</string>
+
+    <string name="morning_caption">Morning</string>
+    <string name="afternoon_caption">Day</string>
+    <string name="evening_caption">Evening</string>
+
+    <string name="weather_title">Weather forecast</string>
 </resources>
