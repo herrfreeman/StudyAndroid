@@ -21,4 +21,7 @@
     <string name="evening_caption">Evening</string>
 
     <string name="weather_title">Weather forecast</string>
+
+    <string name="winter_image_link" translatable="false">https://img.freepik.com/free-vector/unfocussed-winter-background-with-snowflakes_1393-271.jpg</string>
+    <string name="summer_image_link" translatable="false">https://img.freepik.com/free-photo/abstract-background-shadows-palm-leaves-white-wall_1182-1084.jpg</string>
 </resources>

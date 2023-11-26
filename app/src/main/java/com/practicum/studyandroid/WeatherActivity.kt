@@ -13,6 +13,7 @@ import android.widget.TextView
 import androidx.core.graphics.toColorInt
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import java.lang.Integer.min
 import java.lang.Math
 
@@ -24,6 +25,9 @@ class WeatherActivity : AppCompatActivity() {
 
         val weatherCard = WeatherCard(
             topView = findViewById(R.id.top_view),
+            backgroundImage = findViewById(R.id.weather_background),
+            winterImageLink = getString(R.string.winter_image_link),
+            summerImageLink = getString(R.string.summer_image_link),
             dayName = findViewById(R.id.daycard_dayname),
             cloud = findViewById(R.id.daycard_cloud),
             morningTemperature = findViewById(R.id.daycard_morning_temperature),
@@ -56,7 +60,7 @@ class WeatherActivity : AppCompatActivity() {
 
         val weatherList: MutableList<Weather> = mutableListOf()
         var previousWeather: Weather? = null
-        for (i in 1..5) {
+        for (i in 1..100) {
             val minTemp = Math.max((previousWeather?.temperature ?: -20) - 10, -30)
             val maxTemp = Math.min((previousWeather?.temperature ?: 20) + 10, 30)
 
@@ -154,6 +158,9 @@ data class Weather(
 
 data class WeatherCard(
     val topView: View,
+    val backgroundImage: ImageView,
+    val winterImageLink: String,
+    val summerImageLink: String,
     val dayName: TextView,
     val cloud: ImageView,
     val morningTemperature: TextView,
@@ -172,6 +179,22 @@ data class WeatherCard(
         eveningTemperature.setText("$eveningTempName: ${if (eveningTemp > 0) "+" else ""}${eveningTemp}°C")
 
         cloud.setImageResource(weatherItem.imageResource)
+
+
+        if (weatherItem.temperature > 3)
+            Glide.with(topView)
+                .load(summerImageLink)
+                .centerCrop()
+                .placeholder(R.drawable.weather_placeholder)
+                .into(backgroundImage)
+        else if (weatherItem.temperature < -3)
+            Glide.with(topView)
+                .load(winterImageLink)
+                .centerCrop()
+                .placeholder(R.drawable.weather_placeholder)
+                .into(backgroundImage)
+        else backgroundImage.setImageResource(R.drawable.weather_placeholder)
+
         topView.setBackgroundColor(
             Color.argb(
                 50,
@@ -198,12 +221,13 @@ class WeatherViewHolder(parentView: View) : RecyclerView.ViewHolder(parentView) 
     private val cloudImage: ImageView
     private val temperature: TextView
     private val weatherBox: LinearLayout
-
+    //private val weatherBackgroud: ImageView
     init {
         dayName = parentView.findViewById(R.id.day_name)
         cloudImage = parentView.findViewById(R.id.cloud)
         temperature = parentView.findViewById(R.id.temperature)
         weatherBox = parentView.findViewById(R.id.weather_box)
+        //weatherBackgroud = parentView.findViewById(R.id.weather_background)
     }
 
     fun bind(model: Weather) {
