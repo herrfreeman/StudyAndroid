@@ -4,6 +4,8 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
+import com.practicum.studyandroid.imdb.MovieSearch
+import com.practicum.studyandroid.weather.WeatherLocation
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -27,7 +29,13 @@ class MainActivity : AppCompatActivity() {
 
         findViewById<Button>(R.id.weather)
             .setOnClickListener {
-                startActivity(Intent(this, WeatherActivity::class.java))
+                //startActivity(Intent(this, WeatherActivity::class.java))
+                startActivity(Intent(this, WeatherLocation::class.java))
+            }
+
+        findViewById<Button>(R.id.movies)
+            .setOnClickListener {
+                startActivity(Intent(this, MovieSearch::class.java))
             }
     }
 }

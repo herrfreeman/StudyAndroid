@@ -24,4 +24,7 @@
 
     <string name="winter_image_link" translatable="false">https://img.freepik.com/free-vector/unfocussed-winter-background-with-snowflakes_1393-271.jpg</string>
     <string name="summer_image_link" translatable="false">https://img.freepik.com/free-photo/abstract-background-shadows-palm-leaves-white-wall_1182-1084.jpg</string>
+    <string name="search">find</string>
+    <string name="nothing_found">Nothing found</string>
+    <string name="something_went_wrong">Something went wrong</string>
 </resources>
