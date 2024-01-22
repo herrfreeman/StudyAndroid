@@ -1,67 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.recyclerview.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+
+    android:id="@+id/mainRecyclerView"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity"
-    android:orientation="vertical">
-
-    <Button
-        android:id="@+id/startPrimeNumbers"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Prime numbers"
-        android:padding="20dp"
-        android:layout_margin="20dp"/>
-
-    <Button
-        android:id="@+id/startListExample"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="List example"
-        android:padding="20dp"
-        android:layout_margin="20dp"/>
-
-    <Button
-        android:id="@+id/recycleViewExample"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Recycle view example"
-        android:padding="20dp"
-        android:layout_margin="20dp"/>
-
-    <Button
-        android:id="@+id/weather"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Weather"
-        android:padding="20dp"
-        android:layout_margin="20dp"/>
-
-    <Button
-        android:id="@+id/movies"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Movies"
-        android:padding="20dp"
-        android:layout_margin="20dp"/>
-
-    <Button
-        android:id="@+id/rellayout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Relative layout"
-        android:padding="20dp"
-        android:layout_margin="20dp"/>
-
-    <Button
-        android:id="@+id/conslayout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Constraint layout"
-        android:padding="20dp"
-        android:layout_margin="20dp"/>
-</LinearLayout>
+    android:orientation="vertical"
+    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+    tools:listitem="@layout/main_recycler_element" />
