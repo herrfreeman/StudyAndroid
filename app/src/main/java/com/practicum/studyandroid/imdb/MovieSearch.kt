@@ -35,6 +35,7 @@ class MovieSearch : AppCompatActivity() {
     private val imdbService = retrofit.create(ImdbApi::class.java)
     private val movieList: MutableList<Movie> = emptyList<Movie>().toMutableList()
 
+
     private lateinit var searchButton: Button
     private lateinit var queryInput: EditText
     private lateinit var placeholderMessage: TextView
@@ -52,7 +53,7 @@ class MovieSearch : AppCompatActivity() {
 
         searchButton = findViewById(R.id.searchMovieButton)
         queryInput = findViewById(R.id.queryMovieInput)
-        searchButton.setOnClickListener{
+        searchButton.setOnClickListener {
             imdbService.getMovies(getString(R.string.imbd_api_key), queryInput.text.toString())
                 .enqueue(object : Callback<MovieSearchResponse> {
                     override fun onResponse(
@@ -69,7 +70,9 @@ class MovieSearch : AppCompatActivity() {
                         } else {
                             showMessage("", "")
                             movieList.clear()
-                            movieList.addAll(searchResponse?.results ?: emptyList<Movie>().toMutableList())
+                            movieList.addAll(
+                                searchResponse?.results ?: emptyList<Movie>().toMutableList()
+                            )
                             adapter.notifyDataSetChanged()
                         }
                     }
@@ -81,7 +84,6 @@ class MovieSearch : AppCompatActivity() {
                     }
                 })
         }
-
 
 
     }
@@ -102,18 +104,16 @@ class MovieSearch : AppCompatActivity() {
     }
 }
 
-data class Movie(val title: String,
+data class Movie(
+    val title: String,
     val description: String,
-    val image: String)
+    val image: String
+)
 
 class MovieAdapter(val movies: List<Movie>) : RecyclerView.Adapter<MovieViewHolder>() {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MovieViewHolder {
-        val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.movie_item, parent, false)
-
-        return MovieViewHolder(view)
-    }
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MovieViewHolder =
+        MovieViewHolder(parent)
 
     override fun getItemCount(): Int = movies.count()
 
@@ -123,28 +123,36 @@ class MovieAdapter(val movies: List<Movie>) : RecyclerView.Adapter<MovieViewHold
 
 }
 
-class MovieViewHolder(parentView: View) : RecyclerView.ViewHolder(parentView) {
+class MovieViewHolder(parentView: ViewGroup) : RecyclerView.ViewHolder(
+    LayoutInflater
+        .from(parentView.context)
+        .inflate(R.layout.movie_item, parentView, false)
+) {
 
-    private val movieTitle: TextView = parentView.findViewById(R.id.movie_title)
-    private val movieDesription: TextView = parentView.findViewById(R.id.movie_description)
-    private val movieImage: ImageView = parentView.findViewById(R.id.movie_image)
+
+    private val movieTitle: TextView = itemView.findViewById(R.id.movie_title)
+    private val movieDesription: TextView = itemView.findViewById(R.id.movie_description)
+    private val movieImage: ImageView = itemView.findViewById(R.id.movie_image)
 
     fun bind(model: Movie) {
         movieTitle.text = model.title
         movieDesription.text = model.description
-        Glide.with(movieImage)
+        Glide.with(itemView)
             .load(model.image)
             .centerCrop()
             .into(movieImage)
     }
 }
 
-class MovieSearchResponse(val results: ArrayList<Movie>, val errorMessage: String)
+class MovieSearchResponse(val results: List<Movie>, val errorMessage: String)
 
 interface ImdbApi {
 
     @GET("/en/API/SearchMovie/{apikey}/{query}")
-    fun getMovies(@Path("apikey") apiKey: String, @Path("query") query: String): Call<MovieSearchResponse>
+    fun getMovies(
+        @Path("apikey") apiKey: String,
+        @Path("query") query: String
+    ): Call<MovieSearchResponse>
 
 }
 

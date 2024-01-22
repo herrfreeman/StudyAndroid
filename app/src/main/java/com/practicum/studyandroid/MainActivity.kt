@@ -37,5 +37,10 @@ class MainActivity : AppCompatActivity() {
             .setOnClickListener {
                 startActivity(Intent(this, MovieSearch::class.java))
             }
+
+        findViewById<Button>(R.id.rellayout)
+            .setOnClickListener {
+                startActivity(Intent(this, RelativeExample::class.java))
+            }
     }
 }

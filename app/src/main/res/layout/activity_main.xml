@@ -49,4 +49,12 @@
         android:padding="20dp"
         android:layout_margin="20dp"/>
 
+    <Button
+        android:id="@+id/rellayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Relative layout"
+        android:padding="20dp"
+        android:layout_margin="20dp"/>
+
 </LinearLayout>

@@ -15,6 +15,9 @@
         android:theme="@style/Theme.StudyAndroid"
         tools:targetApi="31">
         <activity
+            android:name=".RelativeExample"
+            android:exported="false" />
+        <activity
             android:name=".imdb.MovieSearch"
             android:exported="false" />
         <activity
