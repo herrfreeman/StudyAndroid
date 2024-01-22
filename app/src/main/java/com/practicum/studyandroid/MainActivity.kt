@@ -42,5 +42,10 @@ class MainActivity : AppCompatActivity() {
             .setOnClickListener {
                 startActivity(Intent(this, RelativeExample::class.java))
             }
+
+        findViewById<Button>(R.id.conslayout)
+            .setOnClickListener {
+                startActivity(Intent(this, ConstraintLayoutExample::class.java))
+            }
     }
 }
