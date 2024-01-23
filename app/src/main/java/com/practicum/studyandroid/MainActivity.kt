@@ -39,6 +39,7 @@ class MainActivity : AppCompatActivity() {
         actionList.add(ActionItem("IMDB API") {startActivity(Intent(this, MovieSearch::class.java))})
         actionList.add(ActionItem("RelativeLayout example") {startActivity(Intent(this, RelativeExample::class.java))})
         actionList.add(ActionItem("ConstraintLayout example") {startActivity(Intent(this, ConstraintLayoutExample::class.java))})
+        actionList.add(ActionItem("ConstraintLayout homework") {startActivity(Intent(this, ConstraintLayoutHomework::class.java))})
 
     }
 }

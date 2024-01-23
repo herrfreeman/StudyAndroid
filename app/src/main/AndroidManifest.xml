@@ -15,6 +15,9 @@
         android:theme="@style/Theme.StudyAndroid"
         tools:targetApi="31">
         <activity
+            android:name=".ConstraintLayoutHomework"
+            android:exported="false" />
+        <activity
             android:name=".ConstraintLayoutExample"
             android:exported="false" />
         <activity

@@ -242,7 +242,7 @@
             android:text="Русский язык" />
 
         <Button
-            android:id="@+id/button1"
+            android:id="@+id/myButton1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
@@ -251,23 +251,23 @@
             android:text="Btn1" />
 
         <Button
-            android:id="@+id/button2"
+            android:id="@+id/myButton2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_marginEnd="10dp"
-            android:layout_toStartOf="@id/button1"
+            android:layout_toStartOf="@id/myButton1"
             android:layout_alignWithParentIfMissing="true"
             android:visibility="visible"
             android:text="Btn2" />
 
         <Button
-            android:id="@+id/button3"
+            android:id="@+id/myButton3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_marginEnd="10dp"
-            android:layout_toStartOf="@id/button2"
+            android:layout_toStartOf="@id/myButton2"
             android:layout_alignWithParentIfMissing="true"
             android:text="Btn3" />
 
