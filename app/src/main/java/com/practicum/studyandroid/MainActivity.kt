@@ -40,6 +40,7 @@ class MainActivity : AppCompatActivity() {
         actionList.add(ActionItem("RelativeLayout example") {startActivity(Intent(this, RelativeExample::class.java))})
         actionList.add(ActionItem("ConstraintLayout example") {startActivity(Intent(this, ConstraintLayoutExample::class.java))})
         actionList.add(ActionItem("ConstraintLayout homework") {startActivity(Intent(this, ConstraintLayoutHomework::class.java))})
+        actionList.add(ActionItem("Timer") {startActivity(Intent(this, TimerActivity::class.java))})
 
     }
 }

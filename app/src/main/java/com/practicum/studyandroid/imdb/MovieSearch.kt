@@ -1,6 +1,7 @@
 package com.practicum.studyandroid.imdb
 
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -13,7 +14,9 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.practicum.studyandroid.MovieDescription
 import com.practicum.studyandroid.R
+import com.practicum.studyandroid.TimerActivity
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -141,6 +144,11 @@ class MovieViewHolder(parentView: ViewGroup) : RecyclerView.ViewHolder(
             .load(model.image)
             .centerCrop()
             .into(movieImage)
+        itemView.setOnClickListener {
+            val intent = Intent(itemView.context, MovieDescription::class.java)
+            intent.putExtra("imagePath", model.image)
+            itemView.context.startActivity(intent)
+        }
     }
 }
 
