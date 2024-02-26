@@ -1,16 +1,15 @@
-package com.practicum.studyandroid
+package com.practicum.studyandroid.imdb.ui.movies
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import com.bumptech.glide.Glide
-import com.practicum.studyandroid.databinding.ActivityMovieDescriptionBinding
+import com.practicum.studyandroid.databinding.ActivityMoviePosterBinding
 
-class MovieDescription : AppCompatActivity() {
+
+class MoviePosterActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val binding = ActivityMovieDescriptionBinding.inflate(layoutInflater)
+        val binding = ActivityMoviePosterBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         Glide.with(this)

@@ -1,34 +1,28 @@
-package com.practicum.studyandroid.imdb
+package com.practicum.studyandroid.imdb.ui.movies
 
 
-import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
-import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
-import com.practicum.studyandroid.MovieDescription
 import com.practicum.studyandroid.R
-import com.practicum.studyandroid.TimerActivity
+import com.practicum.studyandroid.imdb.data.dto.MovieSearchResponse
+import com.practicum.studyandroid.imdb.data.network.ImdbApi
+import com.practicum.studyandroid.imdb.domain.models.Movie
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import retrofit2.http.GET
-import retrofit2.http.Path
 
 
-class MovieSearch : AppCompatActivity() {
+class MovieSearchActivity : AppCompatActivity() {
 
-    private val ImdbBaseUrl = "https://imdb-api.com/"
+    private val ImdbBaseUrl = "https://tv-api.com/"
 
     private val retrofit = Retrofit.Builder()
         .baseUrl(ImdbBaseUrl)
@@ -105,62 +99,5 @@ class MovieSearch : AppCompatActivity() {
             placeholderMessage.visibility = View.GONE
         }
     }
-}
-
-data class Movie(
-    val title: String,
-    val description: String,
-    val image: String
-)
-
-class MovieAdapter(val movies: List<Movie>) : RecyclerView.Adapter<MovieViewHolder>() {
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MovieViewHolder =
-        MovieViewHolder(parent)
-
-    override fun getItemCount(): Int = movies.count()
-
-    override fun onBindViewHolder(holder: MovieViewHolder, position: Int) {
-        holder.bind(movies[position])
-    }
-
-}
-
-class MovieViewHolder(parentView: ViewGroup) : RecyclerView.ViewHolder(
-    LayoutInflater
-        .from(parentView.context)
-        .inflate(R.layout.movie_item, parentView, false)
-) {
-
-
-    private val movieTitle: TextView = itemView.findViewById(R.id.movie_title)
-    private val movieDesription: TextView = itemView.findViewById(R.id.movie_description)
-    private val movieImage: ImageView = itemView.findViewById(R.id.movie_image)
-
-    fun bind(model: Movie) {
-        movieTitle.text = model.title
-        movieDesription.text = model.description
-        Glide.with(itemView)
-            .load(model.image)
-            .centerCrop()
-            .into(movieImage)
-        itemView.setOnClickListener {
-            val intent = Intent(itemView.context, MovieDescription::class.java)
-            intent.putExtra("imagePath", model.image)
-            itemView.context.startActivity(intent)
-        }
-    }
-}
-
-class MovieSearchResponse(val results: List<Movie>, val errorMessage: String)
-
-interface ImdbApi {
-
-    @GET("/en/API/SearchMovie/{apikey}/{query}")
-    fun getMovies(
-        @Path("apikey") apiKey: String,
-        @Path("query") query: String
-    ): Call<MovieSearchResponse>
-
 }
 

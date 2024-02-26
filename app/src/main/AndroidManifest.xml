@@ -15,7 +15,7 @@
         android:theme="@style/Theme.StudyAndroid"
         tools:targetApi="31">
         <activity
-            android:name=".MovieDescription"
+            android:name=".imdb.ui.movies.MoviePosterActivity"
             android:exported="false" />
         <activity
             android:name=".TimerActivity"
@@ -30,7 +30,7 @@
             android:name=".RelativeExample"
             android:exported="false" />
         <activity
-            android:name=".imdb.MovieSearch"
+            android:name=".imdb.ui.movies.MovieSearchActivity"
             android:exported="false" />
         <activity
             android:name=".weather.WeatherLocation"

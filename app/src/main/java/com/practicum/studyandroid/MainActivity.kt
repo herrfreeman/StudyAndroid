@@ -4,11 +4,10 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import androidx.recyclerview.widget.RecyclerView
-import com.practicum.studyandroid.imdb.MovieSearch
+import com.practicum.studyandroid.imdb.ui.movies.MovieSearchActivity
 import com.practicum.studyandroid.weather.WeatherActivity
 import com.practicum.studyandroid.weather.WeatherLocation
 
@@ -36,7 +35,7 @@ class MainActivity : AppCompatActivity() {
         actionList.add(ActionItem("ViewHolder example") {startActivity(Intent(this, ViewHolderExample::class.java))})
         actionList.add(ActionItem("Weather") {startActivity(Intent(this, WeatherActivity::class.java))})
         actionList.add(ActionItem("Weather location API") {startActivity(Intent(this, WeatherLocation::class.java))})
-        actionList.add(ActionItem("IMDB API") {startActivity(Intent(this, MovieSearch::class.java))})
+        actionList.add(ActionItem("IMDB API") {startActivity(Intent(this, MovieSearchActivity::class.java))})
         actionList.add(ActionItem("RelativeLayout example") {startActivity(Intent(this, RelativeExample::class.java))})
         actionList.add(ActionItem("ConstraintLayout example") {startActivity(Intent(this, ConstraintLayoutExample::class.java))})
         actionList.add(ActionItem("ConstraintLayout homework") {startActivity(Intent(this, ConstraintLayoutHomework::class.java))})
