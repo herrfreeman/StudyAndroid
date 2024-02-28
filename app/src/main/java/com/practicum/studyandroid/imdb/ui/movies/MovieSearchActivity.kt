@@ -3,6 +3,8 @@ package com.practicum.studyandroid.imdb.ui.movies
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
@@ -10,8 +12,11 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.practicum.studyandroid.R
+import com.practicum.studyandroid.databinding.ActivityMoviesearchBinding
+import com.practicum.studyandroid.imdb.Creator
 import com.practicum.studyandroid.imdb.data.dto.MovieSearchResponse
 import com.practicum.studyandroid.imdb.data.network.ImdbApi
+import com.practicum.studyandroid.imdb.domain.api.MoviesInteractor
 import com.practicum.studyandroid.imdb.domain.models.Movie
 import retrofit2.Call
 import retrofit2.Callback
@@ -22,82 +27,71 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 class MovieSearchActivity : AppCompatActivity() {
 
-    private val ImdbBaseUrl = "https://tv-api.com/"
+    private val moviesInteractor = Creator.provideMoviesInteractor()
+    private val handler = Handler(Looper.getMainLooper())
 
-    private val retrofit = Retrofit.Builder()
-        .baseUrl(ImdbBaseUrl)
-        .addConverterFactory(GsonConverterFactory.create())
-        .build()
-
-    private val imdbService = retrofit.create(ImdbApi::class.java)
     private val movieList: MutableList<Movie> = emptyList<Movie>().toMutableList()
-
-
-    private lateinit var searchButton: Button
-    private lateinit var queryInput: EditText
-    private lateinit var placeholderMessage: TextView
+    private lateinit var bindings: ActivityMoviesearchBinding
 
     val adapter = MovieAdapter(movieList)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_moviesearch)
 
-        placeholderMessage = findViewById(R.id.moviePlaceholderMessage)
+        bindings = ActivityMoviesearchBinding.inflate(layoutInflater)
+        setContentView(bindings.root)
+        bindings.movieList.adapter = adapter
 
-        val recycler = findViewById<RecyclerView>(R.id.movieList)
-        recycler.adapter = adapter
+        bindings.searchMovieButton.setOnClickListener {
+            if (bindings.queryMovieInput.text.isNotEmpty()) {
 
-        searchButton = findViewById(R.id.searchMovieButton)
-        queryInput = findViewById(R.id.queryMovieInput)
-        searchButton.setOnClickListener {
-            imdbService.getMovies(getString(R.string.imbd_api_key), queryInput.text.toString())
-                .enqueue(object : Callback<MovieSearchResponse> {
-                    override fun onResponse(
-                        call: Call<MovieSearchResponse>,
-                        response: Response<MovieSearchResponse>
-                    ) {
-                        val searchResponse = response.body()
+                bindings.moviePlaceholderMessage.visibility = View.GONE
+                bindings.movieList.visibility = View.GONE
 
-                        if (searchResponse == null || searchResponse.errorMessage.isNotEmpty()) {
-                            showMessage(
-                                getString(R.string.something_went_wrong),
-                                searchResponse?.errorMessage ?: ""
-                            )
-                        } else {
-                            showMessage("", "")
+                moviesInteractor.searchMovies(bindings.queryMovieInput.text.toString(), object : MoviesInteractor.MoviesConsumer {
+                    override fun consume(foundMovies: List<Movie>) {
+                        handler.post {
                             movieList.clear()
-                            movieList.addAll(
-                                searchResponse?.results ?: emptyList<Movie>().toMutableList()
-                            )
+                            movieList.addAll(foundMovies)
+                            bindings.movieList.visibility = View.VISIBLE
                             adapter.notifyDataSetChanged()
+                            if (movieList.isEmpty()) {
+                                showMessage(getString(R.string.nothing_found), "")
+                            } else {
+                                hideMessage()
+                            }
                         }
                     }
-
-                    override fun onFailure(call: Call<MovieSearchResponse>, t: Throwable) {
-                        showMessage(
-                            getString(R.string.something_went_wrong), t.stackTraceToString()
-                        )
-                    }
                 })
-        }
+            }
 
+
+        }
 
     }
 
     private fun showMessage(text: String, additionalMessage: String) {
         if (text.isNotEmpty()) {
-            placeholderMessage.visibility = View.VISIBLE
+            bindings.moviePlaceholderMessage.visibility = View.VISIBLE
             movieList.clear()
             adapter.notifyDataSetChanged()
-            placeholderMessage.text = text
+            bindings.moviePlaceholderMessage.text = text
             if (additionalMessage.isNotEmpty()) {
                 Toast.makeText(applicationContext, additionalMessage, Toast.LENGTH_LONG)
                     .show()
             }
         } else {
-            placeholderMessage.visibility = View.GONE
+            bindings.moviePlaceholderMessage.visibility = View.GONE
         }
+    }
+
+    private fun hideMessage() {
+        bindings.moviePlaceholderMessage.visibility = View.GONE
+    }
+
+    companion object {
+        private const val CLICK_DEBOUNCE_DELAY = 1000L
+        private const val SEARCH_DEBOUNCE_DELAY = 2000L
     }
 }
 

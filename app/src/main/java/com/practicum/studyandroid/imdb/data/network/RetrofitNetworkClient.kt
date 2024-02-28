@@ -1,5 +1,6 @@
 package com.practicum.studyandroid.imdb.data.network
 
+import com.practicum.studyandroid.Secret
 import com.practicum.studyandroid.imdb.data.NetworkClient
 import com.practicum.studyandroid.imdb.data.dto.MovieSearchRequest
 import com.practicum.studyandroid.imdb.data.dto.Response
@@ -19,7 +20,7 @@ class RetrofitNetworkClient : NetworkClient {
 
     override fun doRequest(dto: Any): Response {
         if (dto is MovieSearchRequest) {
-            val resp = imdbService.getMovies("", dto.expression).execute()
+            val resp = imdbService.getMovies(Secret.IMDB_API_KEY, dto.expression).execute()
 
             val body = resp.body() ?: Response()
 
