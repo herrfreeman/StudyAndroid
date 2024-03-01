@@ -4,7 +4,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.practicum.studyandroid.imdb.domain.models.Movie
 
-class MovieAdapter(val movies: List<Movie>) : RecyclerView.Adapter<MovieViewHolder>() {
+class MovieAdapter(val movies: MutableList<Movie>) : RecyclerView.Adapter<MovieViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MovieViewHolder =
         MovieViewHolder(parent)
