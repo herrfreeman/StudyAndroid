@@ -1,16 +1,11 @@
 package com.practicum.studyandroid.imdb.presentation.movies
 
 import com.practicum.studyandroid.imdb.domain.models.Movie
+import com.practicum.studyandroid.imdb.ui.movies.models.MoviesState
 
 interface MoviesView {
 
-    fun setPlaceholderVisibility(isVisible: Boolean)
-
-    fun setMoviesListVisibility(isVisible: Boolean)
-
-    fun setPlaceholderText(text: String)
-
-    fun updateMovieList(newMoviesList: List<Movie>)
+    fun render(state: MoviesState)
 
     fun showInstantMessage(text: String)
 

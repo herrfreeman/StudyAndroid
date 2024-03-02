@@ -16,12 +16,14 @@ import com.practicum.studyandroid.imdb.util.Creator
 import com.practicum.studyandroid.imdb.domain.api.MoviesInteractor
 import com.practicum.studyandroid.imdb.domain.models.Movie
 import com.practicum.studyandroid.imdb.ui.movies.MovieAdapter
+import com.practicum.studyandroid.imdb.ui.movies.models.MoviesState
 
 class MoviesSearchPresenter(private val view: MoviesView,
                             private val context: Context) {
 
     private val moviesInteractor = Creator.provideMoviesInteractor(context)
     private val handler = Handler(Looper.getMainLooper())
+    private val movies = mutableListOf<Movie>()
 
     companion object {
         private const val SEARCH_DEBOUNCE_DELAY = 2000L
@@ -47,9 +49,7 @@ class MoviesSearchPresenter(private val view: MoviesView,
 
     fun searchRequest(queryText: String) {
         if (queryText.isNotEmpty()) {
-
-            view.setMoviesListVisibility(true)
-            view.setPlaceholderVisibility(true)
+            view.render(MoviesState.Loading)
 
             moviesInteractor.searchMovies(
                 queryText,
@@ -57,18 +57,23 @@ class MoviesSearchPresenter(private val view: MoviesView,
                     override fun consume(foundMovies: List<Movie>?, errorMessage: String?) {
                         handler.post {
                             if (foundMovies != null) {
-                                view.setMoviesListVisibility(true)
-                                view.updateMovieList(foundMovies)
-
-                                if (foundMovies.isEmpty()) {
-                                    showMessage(context.getString(R.string.nothing_found), "")
-
-                                } else {
-                                    hideMessage()
-                                }
+                                movies.clear()
+                                movies.addAll(foundMovies)
                             }
-                            if (errorMessage != null) {
-                                showMessage(context.getString(R.string.something_went_wrong), errorMessage)
+
+                            when {
+                                errorMessage != null -> {
+                                    view.render(MoviesState.Error(context.getString(R.string.something_went_wrong)))
+                                    view.showInstantMessage(errorMessage)
+                                }
+
+                                movies.isEmpty() -> {
+                                    view.render(MoviesState.Empty(context.getString(R.string.nothing_found)))
+                                }
+
+                                else -> {
+                                    view.render(MoviesState.Content(movies))
+                                }
                             }
                         }
                     }
@@ -76,21 +81,4 @@ class MoviesSearchPresenter(private val view: MoviesView,
         }
     }
 
-    private fun showMessage(text: String, additionalMessage: String) {
-        if (text.isNotEmpty()) {
-            view.setPlaceholderVisibility(true)
-            view.setPlaceholderText(text)
-            view.updateMovieList(emptyList<Movie>())
-
-            if (additionalMessage.isNotEmpty()) {
-                view.showInstantMessage(additionalMessage)
-            }
-        } else {
-            view.setPlaceholderVisibility(false)
-        }
-    }
-
-    private fun hideMessage() {
-        view.setPlaceholderVisibility(false)
-    }
 }

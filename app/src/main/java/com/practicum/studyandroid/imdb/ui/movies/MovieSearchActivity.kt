@@ -16,6 +16,7 @@ import com.practicum.studyandroid.imdb.domain.api.MoviesInteractor
 import com.practicum.studyandroid.imdb.util.Creator
 import com.practicum.studyandroid.imdb.domain.models.Movie
 import com.practicum.studyandroid.imdb.presentation.movies.MoviesView
+import com.practicum.studyandroid.imdb.ui.movies.models.MoviesState
 
 
 class MovieSearchActivity : AppCompatActivity(), MoviesView {
@@ -57,26 +58,46 @@ class MovieSearchActivity : AppCompatActivity(), MoviesView {
 
     }
 
-    override fun setPlaceholderVisibility(isVisible: Boolean) {
-        bindings.moviePlaceholderMessage.isVisible = isVisible
-    }
-
-    override fun setMoviesListVisibility(isVisible: Boolean) {
-        bindings.movieList.isVisible = isVisible
-    }
-
-    override fun setPlaceholderText(text: String) {
-        bindings.moviePlaceholderMessage.text = text
-    }
-
-    override fun updateMovieList(newMoviesList: List<Movie>) {
-        adapter.movies.clear()
-        adapter.movies.addAll(newMoviesList)
-        adapter.notifyDataSetChanged()
+    override fun render(state: MoviesState) {
+        when (state) {
+            is MoviesState.Loading -> showLoading()
+            is MoviesState.Content -> showContent(state.movies)
+            is MoviesState.Error -> showError(state.errorMessage)
+            is MoviesState.Empty -> showEmpty(state.message)
+        }
     }
 
     override fun showInstantMessage(text: String) {
         Toast.makeText(this, text, Toast.LENGTH_LONG).show()
     }
+
+    fun showLoading() {
+        bindings.movieList.visibility = View.GONE
+        bindings.moviePlaceholderMessage.visibility = View.GONE
+        //bindings.progressBar.visibility = View.VISIBLE
+    }
+
+    fun showError(errorMessage: String) {
+        bindings.movieList.visibility = View.GONE
+        bindings.moviePlaceholderMessage.visibility = View.VISIBLE
+        //bindings.progressBar.visibility = View.GONE
+
+        bindings.moviePlaceholderMessage.text = errorMessage
+    }
+
+    fun showEmpty(emptyMessage: String) {
+        showError(emptyMessage)
+    }
+
+    fun showContent(movies: List<Movie>) {
+        bindings.movieList.visibility = View.VISIBLE
+        bindings.moviePlaceholderMessage.visibility = View.GONE
+        //bindings.progressBar.visibility = View.GONE
+
+        adapter.movies.clear()
+        adapter.movies.addAll(movies)
+        adapter.notifyDataSetChanged()
+    }
+
 }
 
