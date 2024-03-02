@@ -3,6 +3,7 @@ package com.practicum.studyandroid.imdb.presentation.movies
 import android.content.Context
 import android.os.Handler
 import android.os.Looper
+import android.os.SystemClock
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
@@ -21,6 +22,28 @@ class MoviesSearchPresenter(private val view: MoviesView,
 
     private val moviesInteractor = Creator.provideMoviesInteractor(context)
     private val handler = Handler(Looper.getMainLooper())
+
+    companion object {
+        private const val SEARCH_DEBOUNCE_DELAY = 2000L
+        private val SEARCH_REQUEST_TOKEN = Any()
+    }
+
+    fun searchNow(queryText: String) {
+        searchDebounce(queryText, 0)
+    }
+
+    fun searchDebounce(changedText: String, debounceDelay: Long = SEARCH_DEBOUNCE_DELAY) {
+        handler.removeCallbacksAndMessages(SEARCH_REQUEST_TOKEN)
+
+        val searchRunnable = Runnable { searchRequest(changedText) }
+
+        val postTime = SystemClock.uptimeMillis() + debounceDelay
+        handler.postAtTime(
+            searchRunnable,
+            SEARCH_REQUEST_TOKEN,
+            postTime,
+        )
+    }
 
     fun searchRequest(queryText: String) {
         if (queryText.isNotEmpty()) {
