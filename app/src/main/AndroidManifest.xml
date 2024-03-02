@@ -16,7 +16,7 @@
         android:theme="@style/Theme.StudyAndroid"
         tools:targetApi="31">
         <activity
-            android:name=".imdb.ui.movies.MoviePosterActivity"
+            android:name=".imdb.ui.poster.MoviePosterActivity"
             android:exported="false" />
         <activity
             android:name=".TimerActivity"

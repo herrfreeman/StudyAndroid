@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.practicum.studyandroid.R
 import com.practicum.studyandroid.imdb.domain.models.Movie
+import com.practicum.studyandroid.imdb.ui.poster.MoviePosterActivity
 
 class MovieViewHolder(parentView: ViewGroup) : RecyclerView.ViewHolder(
     LayoutInflater.from(parentView.context)
