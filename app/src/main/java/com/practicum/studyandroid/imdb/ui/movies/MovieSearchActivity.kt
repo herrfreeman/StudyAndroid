@@ -19,15 +19,25 @@ import com.practicum.studyandroid.imdb.domain.models.Movie
 import com.practicum.studyandroid.imdb.presentation.movies.MoviesSearchPresenter
 import com.practicum.studyandroid.imdb.presentation.movies.MoviesView
 import com.practicum.studyandroid.imdb.ui.movies.models.MoviesState
+import moxy.MvpActivity
+import moxy.presenter.InjectPresenter
+import moxy.presenter.ProvidePresenter
 
 
-class MovieSearchActivity : AppCompatActivity(), MoviesView {
+class MovieSearchActivity : MvpActivity(), MoviesView {
 
     private lateinit var bindings: ActivityMoviesearchBinding
     private val adapter = MovieAdapter()
-    //    companion object {
-    private var moviesSearchPresenter: MoviesSearchPresenter? = null
-//    }
+
+    @InjectPresenter
+    lateinit var moviesSearchPresenter: MoviesSearchPresenter
+
+    @ProvidePresenter
+    fun providePresenter(): MoviesSearchPresenter {
+        return Creator.provideMoviesSearchPresenter(
+            context = this.applicationContext,
+        )
+    }
 
     val textWatcher = object : TextWatcher {
         override fun beforeTextChanged(
@@ -49,13 +59,6 @@ class MovieSearchActivity : AppCompatActivity(), MoviesView {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        moviesSearchPresenter = (this.applicationContext as? StudyApplication)?.moviesSearchPresenter
-        if (moviesSearchPresenter == null) {
-            moviesSearchPresenter = Creator.provideMoviesSearchPresenter(this.applicationContext)
-            (this.applicationContext as? StudyApplication)?.moviesSearchPresenter = moviesSearchPresenter
-        }
-        moviesSearchPresenter?.attachView(this)
-
         bindings = ActivityMoviesearchBinding.inflate(layoutInflater)
         setContentView(bindings.root)
         bindings.movieList.adapter = adapter
@@ -66,41 +69,10 @@ class MovieSearchActivity : AppCompatActivity(), MoviesView {
 
     }
 
-    override fun onStart() {
-        super.onStart()
-        moviesSearchPresenter?.attachView(this)
-    }
-
-    override fun onResume() {
-        super.onResume()
-        moviesSearchPresenter?.attachView(this)
-    }
-    override fun onPause() {
-        super.onPause()
-        moviesSearchPresenter?.detachView()
-    }
-
-    override fun onStop() {
-        super.onStop()
-        moviesSearchPresenter?.detachView()
-    }
-
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
-        moviesSearchPresenter?.detachView()
-    }
     override fun onDestroy() {
         super.onDestroy()
-        moviesSearchPresenter?.detachView()
 
         textWatcher?.let { bindings.queryMovieInput.removeTextChangedListener(it) }
-        moviesSearchPresenter?.detachView()
-        //moviesSearchPresenter?.onDestroy()
-
-        if (isFinishing()) {
-            // Очищаем ссылку на Presenter в Application
-            (this.application as? StudyApplication)?.moviesSearchPresenter = null
-        }
     }
 
     override fun render(state: MoviesState) {

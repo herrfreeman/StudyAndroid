@@ -17,11 +17,10 @@ import com.practicum.studyandroid.imdb.domain.api.MoviesInteractor
 import com.practicum.studyandroid.imdb.domain.models.Movie
 import com.practicum.studyandroid.imdb.ui.movies.MovieAdapter
 import com.practicum.studyandroid.imdb.ui.movies.models.MoviesState
+import moxy.MvpPresenter
 
-class MoviesSearchPresenter(private val context: Context) {
+class MoviesSearchPresenter(private val context: Context) : MvpPresenter<MoviesView>() {
 
-    private var view: MoviesView? = null
-    private var state: MoviesState? = null
     private var latestSearchText: String? = null
     private val moviesInteractor = Creator.provideMoviesInteractor(context)
     private val handler = Handler(Looper.getMainLooper())
@@ -32,18 +31,12 @@ class MoviesSearchPresenter(private val context: Context) {
         private val SEARCH_REQUEST_TOKEN = Any()
     }
 
-    fun attachView(view: MoviesView) {
-        this.view = view
-        state?.let { view.render(it) }
+    override fun onDestroy() {
+        handler.removeCallbacksAndMessages(SEARCH_REQUEST_TOKEN)
     }
 
     private fun renderState(state: MoviesState) {
-        this.state = state
-        this.view?.render(state)
-    }
-
-    fun detachView() {
-        this.view = null
+        viewState.render(state)
     }
 
     fun searchNow(queryText: String) {
@@ -86,7 +79,7 @@ class MoviesSearchPresenter(private val context: Context) {
                             when {
                                 errorMessage != null -> {
                                     renderState(MoviesState.Error(context.getString(R.string.something_went_wrong)))
-                                    view?.showInstantMessage(errorMessage)
+                                    viewState.showInstantMessage(errorMessage)
                                 }
 
                                 movies.isEmpty() -> {
