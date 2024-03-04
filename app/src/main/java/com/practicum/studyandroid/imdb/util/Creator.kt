@@ -22,8 +22,8 @@ object Creator {
         return MoviesInteractorImpl(getMoviesRepository(context))
     }
 
-    fun provideMoviesSearchPresenter(moviesView: MoviesView, context: Context): MoviesSearchPresenter {
-        return MoviesSearchPresenter(moviesView, context)
+    fun provideMoviesSearchPresenter(context: Context): MoviesSearchPresenter {
+        return MoviesSearchPresenter(context)
     }
 
     fun providePosterPresenter(posterView: PosterView, internalParams: Bundle?): PosterPresenter {

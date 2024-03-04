@@ -18,9 +18,11 @@ import com.practicum.studyandroid.imdb.domain.models.Movie
 import com.practicum.studyandroid.imdb.ui.movies.MovieAdapter
 import com.practicum.studyandroid.imdb.ui.movies.models.MoviesState
 
-class MoviesSearchPresenter(private val view: MoviesView,
-                            private val context: Context) {
+class MoviesSearchPresenter(private val context: Context) {
 
+    private var view: MoviesView? = null
+    private var state: MoviesState? = null
+    private var latestSearchText: String? = null
     private val moviesInteractor = Creator.provideMoviesInteractor(context)
     private val handler = Handler(Looper.getMainLooper())
     private val movies = mutableListOf<Movie>()
@@ -30,12 +32,32 @@ class MoviesSearchPresenter(private val view: MoviesView,
         private val SEARCH_REQUEST_TOKEN = Any()
     }
 
+    fun attachView(view: MoviesView) {
+        this.view = view
+        state?.let { view.render(it) }
+    }
+
+    private fun renderState(state: MoviesState) {
+        this.state = state
+        this.view?.render(state)
+    }
+
+    fun detachView() {
+        this.view = null
+    }
+
     fun searchNow(queryText: String) {
         searchDebounce(queryText, 0)
     }
 
     fun searchDebounce(changedText: String, debounceDelay: Long = SEARCH_DEBOUNCE_DELAY) {
         handler.removeCallbacksAndMessages(SEARCH_REQUEST_TOKEN)
+
+        if (latestSearchText == changedText) {
+            return
+        }
+
+        this.latestSearchText = changedText
 
         val searchRunnable = Runnable { searchRequest(changedText) }
 
@@ -49,7 +71,7 @@ class MoviesSearchPresenter(private val view: MoviesView,
 
     fun searchRequest(queryText: String) {
         if (queryText.isNotEmpty()) {
-            view.render(MoviesState.Loading)
+            renderState(MoviesState.Loading)
 
             moviesInteractor.searchMovies(
                 queryText,
@@ -63,16 +85,16 @@ class MoviesSearchPresenter(private val view: MoviesView,
 
                             when {
                                 errorMessage != null -> {
-                                    view.render(MoviesState.Error(context.getString(R.string.something_went_wrong)))
-                                    view.showInstantMessage(errorMessage)
+                                    renderState(MoviesState.Error(context.getString(R.string.something_went_wrong)))
+                                    view?.showInstantMessage(errorMessage)
                                 }
 
                                 movies.isEmpty() -> {
-                                    view.render(MoviesState.Empty(context.getString(R.string.nothing_found)))
+                                    renderState(MoviesState.Empty(context.getString(R.string.nothing_found)))
                                 }
 
                                 else -> {
-                                    view.render(MoviesState.Content(movies))
+                                    renderState(MoviesState.Content(movies))
                                 }
                             }
                         }
