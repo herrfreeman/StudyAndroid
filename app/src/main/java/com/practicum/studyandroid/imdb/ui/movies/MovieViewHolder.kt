@@ -21,7 +21,7 @@ class MovieViewHolder(parentView: ViewGroup) : RecyclerView.ViewHolder(
     private val movieDesription: TextView = itemView.findViewById(R.id.movie_description)
     private val movieImage: ImageView = itemView.findViewById(R.id.movie_image)
 
-    fun bind(model: Movie) {
+    fun bind(model: Movie, clickListener: (Movie) -> Unit) {
         movieTitle.text = model.title
         movieDesription.text = model.description
         Glide.with(itemView)
@@ -29,9 +29,10 @@ class MovieViewHolder(parentView: ViewGroup) : RecyclerView.ViewHolder(
             .centerCrop()
             .into(movieImage)
         itemView.setOnClickListener {
-            val intent = Intent(itemView.context, MoviePosterActivity::class.java)
-            intent.putExtra("imagePath", model.image)
-            itemView.context.startActivity(intent)
+//            val intent = Intent(itemView.context, MoviePosterActivity::class.java)
+//            intent.putExtra("imagePath", model.image)
+//            itemView.context.startActivity(intent)
+            clickListener(model)
         }
     }
 }

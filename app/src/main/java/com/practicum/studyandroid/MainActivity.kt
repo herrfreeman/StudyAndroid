@@ -40,7 +40,7 @@ class MainActivity : AppCompatActivity() {
         actionList.add(ActionItem("ConstraintLayout example") {startActivity(Intent(this, ConstraintLayoutExample::class.java))})
         actionList.add(ActionItem("ConstraintLayout homework") {startActivity(Intent(this, ConstraintLayoutHomework::class.java))})
         actionList.add(ActionItem("Timer") {startActivity(Intent(this, TimerActivity::class.java))})
-        actionList.add(ActionItem("IMDB API (MVP)") {startActivity(Intent(this, MovieSearchActivity::class.java))})
+        actionList.add(ActionItem("IMDB API (MVVM)") {startActivity(Intent(this, MovieSearchActivity::class.java))})
         actionList.add(ActionItem("Track (MVVM)") {startActivity(Intent(this, TrackActivity::class.java))})
 
     }

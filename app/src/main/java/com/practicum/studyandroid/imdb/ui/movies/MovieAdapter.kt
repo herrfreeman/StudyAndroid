@@ -1,10 +1,11 @@
 package com.practicum.studyandroid.imdb.ui.movies
 
+import android.view.View.OnClickListener
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.practicum.studyandroid.imdb.domain.models.Movie
 
-class MovieAdapter : RecyclerView.Adapter<MovieViewHolder>() {
+class MovieAdapter(val clickListener: (Movie) -> Unit) : RecyclerView.Adapter<MovieViewHolder>() {
 
     val movies: MutableList<Movie> = emptyList<Movie>().toMutableList()
 
@@ -14,7 +15,7 @@ class MovieAdapter : RecyclerView.Adapter<MovieViewHolder>() {
     override fun getItemCount(): Int = movies.count()
 
     override fun onBindViewHolder(holder: MovieViewHolder, position: Int) {
-        holder.bind(movies[position])
+        holder.bind(movies[position], clickListener)
     }
 
 }
