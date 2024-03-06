@@ -24,13 +24,21 @@ class MovieSearchActivity : ComponentActivity() {
     }
 
     private lateinit var bindings: ActivityMoviesearchBinding
-    private val adapter = MovieAdapter {
-        if (clickDebounce()) {
-            val intent = Intent(this, MoviePosterActivity::class.java)
-            intent.putExtra("imagePath", it.image)
-            startActivity(intent)
+    private val adapter = MovieAdapter(
+        object : MovieAdapter.MovieClickListener {
+            override fun onMovieClick(movie: Movie) {
+                if (clickDebounce()) {
+                    val intent = Intent(this@MovieSearchActivity, MoviePosterActivity::class.java)
+                    intent.putExtra("imagePath", movie.image)
+                    startActivity(intent)
+                }
+            }
+
+            override fun onFavoriteToggleClick(movie: Movie) {
+                viewModel.toggleFavorite(movie)
+            }
         }
-    }
+    )
 
     lateinit var viewModel: MoviesSearchViewModel
     lateinit var textWatcher: TextWatcher

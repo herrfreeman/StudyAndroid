@@ -2,6 +2,7 @@ package com.practicum.studyandroid.imdb.domain.impl
 
 import com.practicum.studyandroid.imdb.domain.api.MoviesInteractor
 import com.practicum.studyandroid.imdb.domain.api.MoviesRepository
+import com.practicum.studyandroid.imdb.domain.models.Movie
 import com.practicum.studyandroid.imdb.util.Resource
 import java.util.concurrent.Executors
 
@@ -22,5 +23,13 @@ class MoviesInteractorImpl(private val repository: MoviesRepository) : MoviesInt
 //            consumer.consume(repository.searchMovies(expression))
 //        }
 //        t.start()
+    }
+
+    override fun addMovieToFavorites(movie: Movie) {
+        repository.addMovieToFavorites(movie)
+    }
+
+    override fun removeMovieFromFavorites(movie: Movie) {
+        repository.removeMovieFromFavorites(movie)
     }
 }
