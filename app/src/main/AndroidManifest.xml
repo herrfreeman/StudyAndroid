@@ -50,6 +50,9 @@
             android:name=".PrimeNumber"
             android:exported="false" />
         <activity
+            android:name=".player.presentation.ui.TrackActivity"
+            android:exported="false" />
+        <activity
             android:name=".MainActivity"
             android:exported="true"
             android:screenOrientation="portrait" >
