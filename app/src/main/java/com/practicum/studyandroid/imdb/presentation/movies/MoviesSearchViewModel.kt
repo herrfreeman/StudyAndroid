@@ -22,11 +22,14 @@ import com.practicum.studyandroid.imdb.domain.models.Movie
 import com.practicum.studyandroid.imdb.ui.movies.models.MoviesState
 import com.practicum.studyandroid.imdb.util.SingleLiveEvent
 import moxy.MvpPresenter
+import org.koin.java.KoinJavaComponent.getKoin
+import org.koin.java.KoinJavaComponent.inject
 
 class MoviesSearchViewModel(application: Application) : AndroidViewModel(application) {
 
     private var latestSearchText: String? = null
-    private val moviesInteractor = Creator.provideMoviesInteractor(getApplication<Application>())
+    //private val moviesInteractor = Creator.provideMoviesInteractor(getApplication<Application>())
+    private val moviesInteractor: MoviesInteractor = getKoin().get()
     private val handler = Handler(Looper.getMainLooper())
     private val movies = mutableListOf<Movie>()
 
@@ -54,11 +57,11 @@ class MoviesSearchViewModel(application: Application) : AndroidViewModel(applica
         private const val SEARCH_DEBOUNCE_DELAY = 2000L
         private val SEARCH_REQUEST_TOKEN = Any()
 
-        fun getViewModelFactory(): ViewModelProvider.Factory = viewModelFactory {
-            initializer {
-                MoviesSearchViewModel(this[APPLICATION_KEY] as Application)
-            }
-        }
+//        fun getViewModelFactory(): ViewModelProvider.Factory = viewModelFactory {
+//            initializer {
+//                MoviesSearchViewModel(this[APPLICATION_KEY] as Application)
+//            }
+//        }
     }
 
     override fun onCleared() {

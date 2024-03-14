@@ -1,8 +1,11 @@
 package com.practicum.studyandroid.imdb.data
 
+import android.content.Context
 import android.content.SharedPreferences
 
-class LocalStorage(private val sharedPreferences: SharedPreferences) {
+class LocalStorage(private val context: Context) {
+    private val sharedPreferences = context.getSharedPreferences("local_storage", Context.MODE_PRIVATE)
+
     private companion object {
         const val FAVORITES_KEY = "FAVORITES_KEY"
     }

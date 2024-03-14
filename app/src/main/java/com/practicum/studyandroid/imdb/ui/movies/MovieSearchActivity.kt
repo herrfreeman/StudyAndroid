@@ -8,7 +8,8 @@ import android.os.Looper
 import android.text.TextWatcher
 import android.view.View
 import android.widget.Toast
-import androidx.activity.ComponentActivity
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat.startActivity
 import androidx.lifecycle.ViewModelProvider
 import com.practicum.studyandroid.databinding.ActivityMoviesearchBinding
 import com.practicum.studyandroid.imdb.domain.models.Movie
@@ -16,8 +17,9 @@ import com.practicum.studyandroid.imdb.presentation.movies.MoviesSearchViewModel
 import com.practicum.studyandroid.imdb.ui.movies.models.MoviesState
 import com.practicum.studyandroid.imdb.ui.poster.MoviePosterActivity
 
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class MovieSearchActivity : ComponentActivity() {
+class MovieSearchActivity : AppCompatActivity() {
 
     companion object {
         private const val CLICK_DEBOUNCE_DELAY = 1000L
@@ -40,7 +42,8 @@ class MovieSearchActivity : ComponentActivity() {
         }
     )
 
-    lateinit var viewModel: MoviesSearchViewModel
+    private val viewModel: MoviesSearchViewModel by viewModel()
+
     lateinit var textWatcher: TextWatcher
     private var isClickAllowed = true
     private val handler = Handler(Looper.getMainLooper())
@@ -52,7 +55,7 @@ class MovieSearchActivity : ComponentActivity() {
         setContentView(bindings.root)
         bindings.movieList.adapter = adapter
 
-        viewModel = ViewModelProvider(this, MoviesSearchViewModel.getViewModelFactory())[MoviesSearchViewModel::class.java]
+        //viewModel = ViewModelProvider(this, MoviesSearchViewModel.getViewModelFactory())[MoviesSearchViewModel::class.java]
         viewModel.observeState().observe(this) {render(it)}
         viewModel.observeToastState().observe(this) {showToast(it)}
 
